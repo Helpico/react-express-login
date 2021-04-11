@@ -1,22 +1,19 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const cors = require('cors');
-
 
 const USERS = [
-  {email: "client1@example.com", password: "client1"},
-  {email: "client2@example.com", password: "client2"},
-  {email: "client3@example.com", password: "client3"}
+  {email: "c1@example.com", password: "client"},
+  {email: "c2@example.com", password: "client"},
+  {email: "c3@example.com", password: "client"}
 ];
 
-function getUserData(currentEmail) {
-  let usr = USERS.find(u => u.email === currentEmail);
+// Check if email & password are present in users' DB
+function authenticate(inputEmail, inputPassword) {
+  let usr = USERS.some(usr => usr.email === inputEmail 
+    && usr.password === inputPassword);
   return usr;
 }
-// clientInputData === "me@example.com" && req.body.userPassword == "me"
-
-
 
 // parse incoming traditional HTML form submits
 app.use(express.urlencoded({ extended: false }))
@@ -33,12 +30,13 @@ app.get("*", (req, res) => {
 
 
 app.post("/secret", (req, res) => {
-  if (req.body.userEmail === ) {
+  // Current user's email & password athentication
+  let isValidated = authenticate(req.body.userEmail, req.body.userPassword);
+  if ( isValidated ) {
     res.json({ message: "This Life is so good!", status: "success" })
   } else {
     res.json({ message: "You are not authorized.", status: "failure" })
   }
 });
-
 
 app.listen(process.env.PORT || 5000);
