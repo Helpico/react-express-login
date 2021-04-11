@@ -21,7 +21,8 @@ function Home() {
   if (secret.status === "success") {
     return (
       <div className="">
-        <h2>{secret.message}</h2>
+        <h2>Your email: {secret.client.email}</h2>
+        <h2>Your password: {secret.client.password}</h2>
       </div>
     )
   }

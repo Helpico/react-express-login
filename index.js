@@ -15,6 +15,13 @@ function authenticate(inputEmail, inputPassword) {
   return usr;
 }
 
+// Select particular user's data from big users' DB
+function selectUserFromDB(inputEmail) {
+  let usr = USERS.find(usr => usr.email === inputEmail);
+  return usr;
+}
+
+
 // parse incoming traditional HTML form submits
 app.use(express.urlencoded({ extended: false }))
 
@@ -31,11 +38,15 @@ app.get("*", (req, res) => {
 
 app.post("/secret", (req, res) => {
   // Current user's email & password athentication
-  let isValidated = authenticate(req.body.userEmail, req.body.userPassword);
+  const isValidated = authenticate(req.body.userEmail.trim(), req.body.userPassword.trim());
+
+  // Selecting a particular user object from DB of users
+  const SELECTED_USER = selectUserFromDB(req.body.userEmail);
+  
   if ( isValidated ) {
-    res.json({ message: "This Life is so good!", status: "success" })
+    res.json({ client: SELECTED_USER, status: "success" })
   } else {
-    res.json({ message: "You are not authorized.", status: "failure" })
+    res.json({ client: {}, status: "failure" })
   }
 });
 
