@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react"
 import Axios from "axios"
 
 function Home() {
-  const [username, setUsername] = useState("")
+  const [userEmail, setUserEmail] = useState("")
+  const [userPassword, setUserPassword] = useState("")
   const [secret, setSecret] = useState("")
 
+  
   useEffect(() => {
-    document.title = "Home Page | Our Test App"
+    document.title = "Login Page | The Test App";
   }, [])
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const response = await Axios.post("/secret", { username })
+    const response = await Axios.post("/secret", { userEmail, userPassword })
     setSecret(response.data)
   
   }
@@ -31,9 +33,14 @@ function Home() {
       <form onSubmit={handleSubmit}>
       {secret.status === "failure" && <div><h2>That is incorrect. Try again.</h2></div>}
         <label>
-          <p>Username</p>
-          <input type="text" onChange={e => setUsername(e.target.value)} />
+          <p>User's Email</p>
+          <input type="text" onChange={e => setUserEmail(e.target.value)} />
         </label>
+        <label>
+          <p>User's Password</p>
+          <input type="text" onChange={e => setUserPassword(e.target.value)} />
+        </label>
+        
         <div>
           <button type="submit">Submit</button>
         </div>

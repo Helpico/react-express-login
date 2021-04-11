@@ -13,7 +13,7 @@ function App() {
           <h1 className="">Our Amazing App!</h1>
           <ul className="">
             <li className="">
-              <NavLink to="/about" className="nav-link" activeClassName="active">
+              <NavLink to="/about" className="">
                 About
               </NavLink>
             </li>
