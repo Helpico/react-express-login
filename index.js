@@ -2,21 +2,22 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
+// JSON users' database
 const USERS = [
   {email: "c1@example.com", password: "client"},
   {email: "c2@example.com", password: "client"},
   {email: "c3@example.com", password: "client"}
 ];
 
-// Check if email & password are present in users' DB
+// Check if input email & password are present in users' DB
 function authenticate(inputEmail, inputPassword) {
   let usr = USERS.some(usr => usr.email === inputEmail 
     && usr.password === inputPassword);
   return usr;
 }
 
-// Select particular user's data from big users' DB
-function selectUserFromDB(inputEmail) {
+// Select the user's data from big users' DB
+function selectAuthenticatedUserFromDB(inputEmail) {
   let usr = USERS.find(usr => usr.email === inputEmail);
   return usr;
 }
@@ -37,11 +38,11 @@ app.get("*", (req, res) => {
 
 
 app.post("/secret", (req, res) => {
-  // Current user's email & password athentication
+  // Current user's email & password authentication
   const isValidated = authenticate(req.body.userEmail.trim(), req.body.userPassword.trim());
 
   // Selecting a particular user object from DB of users
-  const SELECTED_USER = selectUserFromDB(req.body.userEmail);
+  const SELECTED_USER = selectAuthenticatedUserFromDB(req.body.userEmail);
   
   if ( isValidated ) {
     res.json({ client: SELECTED_USER, status: "success" })
@@ -50,4 +51,4 @@ app.post("/secret", (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5000, () => console.log(2222222222));

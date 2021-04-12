@@ -1,49 +1,60 @@
   
-import React from "react"
+import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
-import { BrowserRouter, Route, Link, NavLink, Switch } from "react-router-dom"
-import Home from "./components/Home"
-import About from "./components/About"
+import Axios from "axios"
 
 function App() {
-  return (
-    <BrowserRouter>
-      <header className="">
-        <div className="">
-          <h1 className="">Our Amazing App!</h1>
-          <ul className="">
-            <li className="">
-              <NavLink to="/about" className="">
-                About
-              </NavLink>
-            </li>
-          </ul>
+  const [userEmail, setUserEmail] = useState("")
+  const [userPassword, setUserPassword] = useState("")
+  const [secret, setSecret] = useState("")
+
+    
+  useEffect(() => {
+    document.title = "Login Page | The Test App";
+  }, [])
+
+  // Getting authenticated user's data from backend
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const response = await Axios.post("/secret", { userEmail, userPassword })
+    setSecret(response.data)
+  
+  }
+ 
+  const Logout = () => {
+    setUserEmail({email: "", })
+  }
+
+  if (secret.status === "success") {
+    // Login Form on successfull loggin in
+    return (
+          <div className="">
+            <h2>Welcome, <small>{secret.client.email}!</small></h2>
+            <h2>Your secret password is: <small>{secret.client.password}</small>.</h2>
+            <button>Logout</button>
         </div>
-      </header>
-
-      <div className="">
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-
-      <footer className="">
-        <p className="">
-          <Link className="" to="/">
-            Log In
-          </Link>{" "}
-          |{" "}
-          <Link className="" to="/about">
-            About Us
-          </Link>
-        </p>
-      </footer>
-    </BrowserRouter>
+      )
+  }
+ 
+  // Initial default empty Login Form
+  return (
+    <div className="">
+      <h2>Please, log in!</h2>
+      <form onSubmit={handleSubmit}> 
+          {secret.status === "failure" && <div><h4>That is incorrect. Try again.</h4></div>}
+          <label>
+            <p>Your email: </p>
+            <input type="text" onChange={e => setUserEmail(e.target.value)} />
+          </label>
+          <label>
+            <p>Your password: </p>
+            <input type="text" onChange={e => setUserPassword(e.target.value)} />
+          </label>
+          <div>
+            <button type="submit">Log In</button>
+          </div>
+    </form> 
+    </div>    
   )
 }
 

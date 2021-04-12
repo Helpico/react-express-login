@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
 import Axios from "axios"
+import About from "./About"
+import { Link } from "react-router-dom"
 
 function Home() {
   const [userEmail, setUserEmail] = useState("")
   const [userPassword, setUserPassword] = useState("")
   const [secret, setSecret] = useState("")
 
-  
+    
   useEffect(() => {
     document.title = "Login Page | The Test App";
   }, [])
@@ -20,13 +22,14 @@ function Home() {
  
   if (secret.status === "success") {
     return (
-      <div className="">
-        <h2>Your email: {secret.client.email}</h2>
-        <h2>Your password: {secret.client.password}</h2>
-      </div>
-    )
+          <div className="">
+            <h2>Your email: {secret.client.email}</h2>
+            <h2>Your password: {secret.client.password}</h2>
+        </div>
+      )
   }
   
+
 
   return(
     <div>
