@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"
 import Axios from "axios"
-import About from "./About"
-import { Link } from "react-router-dom"
 
 function Home() {
   const [userEmail, setUserEmail] = useState("")
@@ -33,7 +31,7 @@ function Home() {
 
   return(
     <div>
-      <h1>Please Log In</h1>
+      <h1>Log in, using ${email}</h1>
       <form onSubmit={handleSubmit}>
       {secret.status === "failure" && <div><h2>That is incorrect. Try again.</h2></div>}
         <label>

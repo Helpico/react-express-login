@@ -2,27 +2,17 @@
 import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import Axios from "axios"
-import Cookies from 'js-cookie'                             // cookie 
 
 function App() {
   const [userEmail, setUserEmail] = useState("")
   const [userPassword, setUserPassword] = useState("")
-  const [secret, setSecret] = useState("")
+  const [secret, setSecret] = useState("") // from backend
   
   useEffect(() => {
     document.title = "Login Page | The Test App"; 
   }, [])
 
-  if (document.cookie.includes('logged')) {
-    async function reRender(e) {
-      const response = await Axios.get("/secret")
-      response.data
-
-      // ... fire the axios get request
-    }
-  }
-
-  // Getting authenticated user's data from backend
+  // Getting authenticated user
   async function handleSubmit(e) {
     e.preventDefault()
     const response = await Axios.post("/secret", { userEmail, userPassword })
@@ -32,14 +22,13 @@ function App() {
   // On successfull loggin in
   if (secret.status === "success") {
  
-    Cookies.set("logged", secret.status);                   // cookie
-
     // LogOut component
     const Logout = () => {
       setSecret({email: "", password: ""});
-      Cookies.remove("logged");                             // cookie
+      Cookies.remove("logged");                             
     }
     
+    // Shows email & password to the user
     return (
       <div className="">
         <h2>Welcome, <small>{secret.client.email}!</small></h2>
@@ -49,8 +38,6 @@ function App() {
     )
   }
  
-
-
   // Initial default empty Login Form
   return (
     <div className="">

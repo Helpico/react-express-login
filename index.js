@@ -1,5 +1,8 @@
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const csurf = require('csurf');
+
 const app = express();
 
 // JSON users' database
@@ -26,6 +29,19 @@ function selectAuthenticatedUserFromDB(inputEmail) {
 // parse incoming traditional HTML form submits
 app.use(express.urlencoded({ extended: false }))
 
+
+app.use(
+  session({
+    // You could actually store your secret in your .env file
+    secret: "supersecret difficult to guess string",
+    cookie: {},
+    resave: false,
+    saveUninitialized: false
+  })
+)
+
+/* app.use(csurf()) */
+
 // parse incoming JSON payloads
 app.use(express.json())
 
@@ -36,11 +52,25 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
+app.get("/secret", (req, res) => {
+  let email = "c1@example.com";
+  let password = "client";
+
+  if (req.session.userEmail) {
+    email = req.session.userEmail;
+    password = req.session.userEmail;
+  }
+
+  res.send('<h1>Welcome, ${email}!</h1>')
+});
 
 app.post("/secret", (req, res) => {
 
   const { userEmail, userPassword } = req.body;
-  
+
+  // Store into session's cookies
+  req.session.userEmail = userEmail.trim();
+
   // Current user's email & password authentication
   const isValidated = authenticate(userEmail, userPassword);
 

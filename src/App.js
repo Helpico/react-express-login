@@ -51,10 +51,13 @@ function App() {
             <p>Your password: </p>
             <input type="text" onChange={e => setUserPassword(e.target.value)} />
           </label>
-          <div>
+          <p>
             <button type="submit">Log In</button>
-          </div>
-    </form> 
+          </p>
+      </form>
+      <br></br>
+      <div>Use <i>'c2@example.com'</i> as a login!</div>
+      <div>Use <i>'client'</i> as a password!</div> 
     </div>    
   )
 }
