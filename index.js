@@ -51,4 +51,4 @@ app.post("/secret", (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 5000, () => console.log(2222222222));
+app.listen(process.env.PORT || 5000, () => console.log(`Server is on`));

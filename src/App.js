@@ -7,8 +7,7 @@ function App() {
   const [userEmail, setUserEmail] = useState("")
   const [userPassword, setUserPassword] = useState("")
   const [secret, setSecret] = useState("")
-
-    
+      
   useEffect(() => {
     document.title = "Login Page | The Test App";
   }, [])
@@ -21,17 +20,18 @@ function App() {
   
   }
  
-  const Logout = () => {
-    setUserEmail({email: "", })
-  }
-
   if (secret.status === "success") {
     // Login Form on successfull loggin in
+    
+    const Logout = () => {
+      setSecret({email: "", password: ""});
+    }
+    
     return (
           <div className="">
             <h2>Welcome, <small>{secret.client.email}!</small></h2>
             <h2>Your secret password is: <small>{secret.client.password}</small>.</h2>
-            <button>Logout</button>
+            <button onClick={Logout}>Logout</button>
         </div>
       )
   }
