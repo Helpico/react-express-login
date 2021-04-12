@@ -11,14 +11,14 @@ const USERS = [
 
 // Check if input email & password are present in users' DB
 function authenticate(inputEmail, inputPassword) {
-  let usr = USERS.some(usr => usr.email === inputEmail 
-    && usr.password === inputPassword);
-  return usr;
+  let isUsr = USERS.some(usr => usr.email === inputEmail.trim() 
+    && usr.password === inputPassword.trim());
+  return isUsr;
 }
 
 // Select the user's data from big users' DB
 function selectAuthenticatedUserFromDB(inputEmail) {
-  let usr = USERS.find(usr => usr.email === inputEmail);
+  let usr = USERS.find(usr => usr.email === inputEmail.trim());
   return usr;
 }
 
@@ -38,11 +38,14 @@ app.get("*", (req, res) => {
 
 
 app.post("/secret", (req, res) => {
+
+  const { userEmail, userPassword } = req.body;
+  
   // Current user's email & password authentication
-  const isValidated = authenticate(req.body.userEmail.trim(), req.body.userPassword.trim());
+  const isValidated = authenticate(userEmail, userPassword);
 
   // Selecting a particular user object from DB of users
-  const SELECTED_USER = selectAuthenticatedUserFromDB(req.body.userEmail);
+  const SELECTED_USER = selectAuthenticatedUserFromDB(userEmail);
   
   if ( isValidated ) {
     res.json({ client: SELECTED_USER, status: "success" })
@@ -51,4 +54,4 @@ app.post("/secret", (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 5000, () => console.log(`Server is on`));
+app.listen(process.env.PORT || 5000, () => console.log(`Server is On`));
