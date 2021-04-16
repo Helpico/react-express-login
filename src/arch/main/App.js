@@ -51,21 +51,13 @@ function App() {
             <p>Your password: </p>
             <input type="text" onChange={e => setUserPassword(e.target.value)} />
           </label>
-          <input type="hidden" name="_csrf" value="${req.csrfToken()}" />   
           <p>
             <button type="submit">Log In</button>
           </p>
       </form>
       <br></br>
-      <div>There are three users in our database:
-        <ol>
-        <li><i>c1@example.com</i></li>
-        <li><i>c2@example.com</i></li>
-        <li><i>c3@example.com</i></li> 
-        </ol>
-      </div>
-      <div>Use anyone to log in with a password of <i><b>client</b></i></div>
-      <div>After logging in, go to the page: "/login" and reload</div> 
+      <div>Use <i>'c2@example.com'</i> as a login!</div>
+      <div>Use <i>'client'</i> as a password!</div> 
     </div>    
   )
 }

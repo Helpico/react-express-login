@@ -7,7 +7,8 @@
     "dev": "npm-run-all -p backend frontend",
     "backend": "nodemon index.js --ignore './src/' --ignore './dist'",
     "frontend": "webpack --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "Maksym",
