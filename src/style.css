@@ -1,0 +1,23 @@
+@import '~antd/dist/antd.css';
+
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+.title {
+  color: white;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+  border: 3px solid #33354e;
+  padding: 10px;
+}
+
+.card-login {
+  padding: 30px;
+  background: #ececec;
+  margin: auto;
+  width: 100%
+}

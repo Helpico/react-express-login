@@ -5,7 +5,7 @@ module.exports = {
   mode: 'development',
 
   entry: {
-    main: path.resolve(__dirname, 'src', 'App.js'),
+    main: path.resolve(__dirname, 'src', 'Ant.js'),
   },
 
   output: {
@@ -24,7 +24,15 @@ module.exports = {
             presets: [["@babel/preset-env", { "useBuiltIns": "usage", "corejs": 3, "targets": "defaults" }], "@babel/preset-react"]
           }
         }
-      }
+      },
+      {
+        test: /\.css$/i,
+        // exclude: /(node_modules)/,
+        use: [
+            'style-loader', 
+            {loader: 'css-loader', options: { importLoaders: 1 }}
+        ]
+      },
     ]
   },
   

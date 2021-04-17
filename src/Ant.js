@@ -1,9 +1,12 @@
-  
-import React, { useEffect, useState } from "react"
-import ReactDOM from "react-dom"
-import Axios from "axios"
+import React, {useEffect, useState} from "react";
+import ReactDOM from "react-dom";
+import Axios from "axios";
+import { Layout } from 'antd';
+import "./style.css";
 
-function App() {
+const { Header } = Layout;
+
+const Ant = () => {
   const [userEmail, setUserEmail] = useState("")
   const [userPassword, setUserPassword] = useState("")
   const [secret, setSecret] = useState("")
@@ -40,7 +43,12 @@ function App() {
   // Initial default empty Login Form
   return (
     <div className="">
-      <h2>Please, log in!</h2>
+      <Layout>
+        <Header>
+          <h1 className="title">Programming Test App</h1>
+        </Header>
+      </Layout>
+    <h2>Please, log in!</h2>
       <form onSubmit={handleSubmit}> 
           {secret.status === "failure" && <div><h4>That is incorrect. Try again.</h4></div>}
           <label>
@@ -71,7 +79,10 @@ function App() {
       <div><small>'logout' button on '/login'; page is to be developed.</small></div>
       <div><small>Express redirect to '/login' after authentication is another issue.</small></div> 
     </div>    
-  )
-}
+  );
+};
 
-ReactDOM.render(<App />, document.getElementById("app"))
+ReactDOM.render(<Ant />, document.getElementById("app"))
+
+
+
