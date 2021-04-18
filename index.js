@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, "dist")))
 
 // All routes end up with /dist/index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 }); 
 
 app.get("/login", csrfProtection, (req, res) => {
@@ -46,17 +46,11 @@ app.get("/login", csrfProtection, (req, res) => {
   //console.log(req.cookies);
   if (req.cookies.simpletest) {
     const USER = selectAuthenticatedUserFromDB(clients_email);
+    USER.status = "success";
 
-    res.send(`<div className="">
-    <h2>Welcome, <small>${USER.email}!</small></h2>
-    <h2>Your secret password is: <small>${USER.password}</small>.</h2>
-    <form action="/logout" method="GET" enctype="multipart/form-data">
-    <button type="submit">Logout</button>
-    </form>
-    <h1>Cookie setup helps reload based on status</h1>
-</div>`)
+    res.json(USER)
   } else {
-    res.send("Failed! <h2><a href='/'>Back to main login page</h2>");
+    res.json({client:{}, status: "failure"});
   }
 });
 
@@ -74,7 +68,7 @@ app.post("/secret", (req, res) => {
     
     if ( isValidated ) {
     // imagine this next line where we set the cookie instead only happened if you had just provided a correct username and password etc...
-    res.cookie("simpletest", userEmail, { httpOnly: true })
+    res.cookie("simpletest", userEmail, { httpOnly: false })
     
    res.json({ client: SELECTED_USER, status: "success" })
     
@@ -83,7 +77,6 @@ app.post("/secret", (req, res) => {
     }
   
 });
-
 
 
 app.get("/logout", (req, res) => {

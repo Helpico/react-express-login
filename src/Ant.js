@@ -1,17 +1,28 @@
 import React, {useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 import Axios from "axios";
+import Cookies from 'js-cookie';
 import { Layout } from 'antd';
 import "./style.css";
 
 const { Header } = Layout;
 
 const Ant = () => {
+
   const [userEmail, setUserEmail] = useState("")
   const [userPassword, setUserPassword] = useState("")
-  const [secret, setSecret] = useState("")
-      
+  const [secret, setSecret] = useState("");
+ 
+
+
+
   useEffect(() => {
+    let email = Cookies.get('simpletest')
+    if (email) {
+      setSecret({client:{ email, password: "client"}, status: "success"}) // to further eleborate on password to be dynamic
+    } else {
+      setSecret({client:{}, status: "failure"})
+    }
     document.title = "Login Page | The Test App";
   }, [])
 
@@ -22,6 +33,14 @@ const Ant = () => {
     setSecret(response.data)
   
   }
+  
+  // Load with authenticated status
+  async function Logged(e) {
+    e.preventDefault()
+    const response = await Axios.get("/login", { })
+    return response.data
+  }
+  
   // Removes the cookie (users' data upload impossible) & redirect to login page  
   async function Logout(e) {
     e.preventDefault()
@@ -34,8 +53,10 @@ const Ant = () => {
     
     return (
           <div className="">
+            <h2>Cookie: <small>{Cookies.get('simpletest')}!</small></h2>
             <h2>Welcome, <small>{secret.client.email}!</small></h2>
             <h2>Your secret password is: <small>{secret.client.password}</small>.</h2>
+            <input type="hidden" name="_csrf" value="${req.csrfToken()}" /> 
             <button onClick={Logout}>Logout</button>
         </div>
       )
@@ -75,7 +96,8 @@ const Ant = () => {
       </div>
       <div>For simplicity, they share a common password of <i><b>client</b></i>.</div>
       <div>After loggin in, personal user's info is pulled out from DB.</div>
-      <div>Ant.design styling is applied.</div> 
+      <div>Reload of data from DB, based on caching, enabled.</div>
+      <div>Ant.design styling is partly applied.</div>
     </div>    
   );
 };
