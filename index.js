@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "dist")))
 // All routes end up with /dist/index.html
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
-});
+}); 
 
 app.get("/login", csrfProtection, (req, res) => {
   const clients_email = req.cookies.simpletest;
@@ -50,13 +50,16 @@ app.get("/login", csrfProtection, (req, res) => {
     res.send(`<div className="">
     <h2>Welcome, <small>${USER.email}!</small></h2>
     <h2>Your secret password is: <small>${USER.password}</small>.</h2>
-    <button onclick="alert('This functionality is underway')">Logout</button>
+    <form action="/logout" method="GET" enctype="multipart/form-data">
+    <button type="submit">Logout</button>
+    </form>
     <h1>Cookie setup helps reload based on status</h1>
 </div>`)
   } else {
-    res.send("Failed!")
+    res.send("Failed! <h2><a href='/'>Back to main login page</h2>");
   }
-})
+});
+
 
 app.post("/secret", (req, res) => {
   
@@ -79,6 +82,15 @@ app.post("/secret", (req, res) => {
       res.json({ client: {}, status: "failure" })
     }
   
+});
+
+
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("simpletest");
+  console.log(req.cookies)
+ 
+  return res.redirect("/");
 });
 
 app.use((err, req, res, next) => {

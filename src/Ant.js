@@ -22,14 +22,15 @@ const Ant = () => {
     setSecret(response.data)
   
   }
+  // Removes the cookie (users' data upload impossible) & redirect to login page  
+  async function Logout(e) {
+    e.preventDefault()
+    const response = await Axios.get("/logout", {email: "", password: ""})
+    setSecret(response.data)
+  }
  
   if (secret.status === "success") {
     // Login Form on successfull loggin in
-    
-    // LogOut component
-    const Logout = () => {
-      setSecret({email: "", password: ""});
-    }
     
     return (
           <div className="">
@@ -50,7 +51,7 @@ const Ant = () => {
       </Layout>
     <h2>Please, log in!</h2>
       <form onSubmit={handleSubmit}> 
-          {secret.status === "failure" && <div><h4>That is incorrect. Try again.</h4></div>}
+          {secret.status === "failure" && <div><h4>Email or password is incorrect.</h4></div>}
           <label>
             <p>Your email: </p>
             <input type="text" onChange={e => setUserEmail(e.target.value)} />
@@ -74,10 +75,7 @@ const Ant = () => {
       </div>
       <div>For simplicity, they share a common password of <i><b>client</b></i>.</div>
       <div>After loggin in, personal user's info is pulled out from DB.</div>
-      <div>Please, go to the page: "/login" after log in.</div>
-      <div>You can reload or open a new "/login" with your status cashed.</div>
-      <div><small>'logout' button on '/login'; page is to be developed.</small></div>
-      <div><small>Express redirect to '/login' after authentication is another issue.</small></div> 
+      <div>Ant.design styling is applied.</div> 
     </div>    
   );
 };
